@@ -1,0 +1,16 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "ai.justdomain/just-domain",
+  "title": "Just Domain",
+  "description": "Search domain availability and pricing, straight from chat — then open a link to register.",
+  "websiteUrl": "https://justdomain.ai",
+  "version": "0.3.0",
+  "icons": [
+    { "src": "https://raw.githubusercontent.com/just-done/just-domain-mcp/main/icon-512.png", "mimeType": "image/png", "sizes": ["512x512"] },
+    { "src": "https://raw.githubusercontent.com/just-done/just-domain-mcp/main/icon-192.png", "mimeType": "image/png", "sizes": ["192x192"] }
+  ],
+  "repository": { "url": "https://github.com/just-done/just-domain-mcp", "source": "github" },
+  "remotes": [
+    { "type": "streamable-http", "url": "https://mcp.justdomain.ai/" }
+  ]
+}
