@@ -8,7 +8,7 @@ register the name on justdomain.ai — without leaving the conversation. It's re
 nothing is bought or charged in the chat.
 
 - **Website:** https://justdomain.ai
-- **MCP endpoint:** `https://mcp.justdomain.ai/mcp`
+- **MCP endpoint:** `https://mcp.justdomain.ai/`
 - **Registry name:** `ai.justdomain/just-domain`
 - **Transport:** Streamable HTTP (remote — nothing to install)
 
@@ -19,7 +19,7 @@ nothing is bought or charged in the chat.
   "mcpServers": {
     "just-domain": {
       "type": "streamable-http",
-      "url": "https://mcp.justdomain.ai/mcp"
+      "url": "https://mcp.justdomain.ai/"
     }
   }
 }
@@ -42,7 +42,7 @@ domain-availability lookup with a clean handoff to registration.
 ## About this repository
 
 Public metadata + registry listing for the Just Domain MCP server: `server.json`,
-`.mcp.json`, icons, and this README. The server runs at `https://mcp.justdomain.ai/mcp`;
+`.mcp.json`, icons, and this README. The server runs at `https://mcp.justdomain.ai/`;
 its source is not part of this repo.
 
 ## License

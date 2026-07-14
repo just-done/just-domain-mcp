@@ -9,7 +9,7 @@ locally, and no API key is required.
      "mcpServers": {
        "just-domain": {
          "type": "streamableHttp",
-         "url": "https://mcp.justdomain.ai/mcp"
+         "url": "https://mcp.justdomain.ai/"
        }
      }
    }

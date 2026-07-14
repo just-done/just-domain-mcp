@@ -11,6 +11,6 @@
   ],
   "repository": { "url": "https://github.com/just-done/just-domain-mcp", "source": "github" },
   "remotes": [
-    { "type": "streamable-http", "url": "https://mcp.justdomain.ai/mcp" }
+    { "type": "streamable-http", "url": "https://mcp.justdomain.ai/" }
   ]
 }
