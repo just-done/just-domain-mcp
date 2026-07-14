@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "just-domain": {
+      "type": "streamable-http",
+      "url": "https://mcp.justdomain.ai/mcp"
+    }
+  }
+}
