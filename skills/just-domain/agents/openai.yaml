@@ -1,0 +1,20 @@
+interface:
+  display_name: "Just Domain"
+  short_description: "Check if a domain is available and what it costs — straight from the chat, then open a link to register."
+  icon_small: "./assets/icon.svg"
+  icon_large: "./assets/icon-512.png"
+  brand_color: "#D97757"
+  default_prompt: "Check if this domain is available with Just Domain and tell me what it costs."
+
+policy:
+  allow_implicit_invocation: true
+
+# One entry per MCP SERVER (the connector Codex installs and wires), not per
+# tool. Just Domain runs a single MCP server exposing search_domains → one entry.
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "just-domain"
+      description: "Just Domain MCP server — read-only domain availability and pricing lookup, with a registration link for available names."
+      transport: "streamable_http"
+      url: "https://mcp.justdomain.ai/"
