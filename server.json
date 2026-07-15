@@ -4,13 +4,24 @@
   "title": "Just Domain",
   "description": "Search domain availability and pricing, straight from chat — then open a link to register.",
   "websiteUrl": "https://justdomain.ai",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "icons": [
-    { "src": "https://raw.githubusercontent.com/just-done/just-domain-mcp/main/icon-512.png", "mimeType": "image/png", "sizes": ["512x512"] },
-    { "src": "https://raw.githubusercontent.com/just-done/just-domain-mcp/main/icon-192.png", "mimeType": "image/png", "sizes": ["192x192"] }
+    {
+      "src": "https://justdomain.ai/just-icon-512.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "512x512"
+      ]
+    }
   ],
-  "repository": { "url": "https://github.com/just-done/just-domain-mcp", "source": "github" },
+  "repository": {
+    "url": "https://github.com/just-done/just-domain-mcp",
+    "source": "github"
+  },
   "remotes": [
-    { "type": "streamable-http", "url": "https://mcp.justdomain.ai/" }
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.justdomain.ai/"
+    }
   ]
 }
