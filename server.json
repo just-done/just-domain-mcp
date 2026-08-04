@@ -4,7 +4,7 @@
   "title": "Just Domain",
   "description": "Search domain availability and pricing, straight from chat — then open a link to register.",
   "websiteUrl": "https://justdomain.ai",
-  "version": "0.3.3",
+  "version": "0.3.5",
   "icons": [
     {
       "src": "https://justdomain.ai/just-icon-512.png",
