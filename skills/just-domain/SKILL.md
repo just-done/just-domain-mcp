@@ -1,6 +1,6 @@
 ---
 name: just-domain
-description: Check whether a domain name is available and what it costs, straight from the chat, with Just Domain. Use when the user wants to know if a domain is available or taken, compares names, asks "is example.com available", "what would this domain cost", "find me a domain for my project/business/idea", or wants a link to register a specific name. Returns, per domain, availability, whether it's a premium name, the first-year price, the renewal price, and — for available names — a URL to open in a browser to register on justdomain.ai. Read-only: it looks up information only. Do NOT use it to buy, purchase, pay for, or complete registration of a domain in the chat (no order or payment happens here — the user opens the returned link to register); do NOT use it to transfer, renew, manage, or edit DNS on a domain the user already owns; do NOT use it to auto-suggest alternative TLDs (it checks exactly the domains you pass); do NOT use it for anything beyond availability and pricing lookup.
+description: Check whether a domain name is available and what it costs, straight from the chat, with Just Domain. Use when the user wants to know if a domain is available or taken, compares names, asks "is example.com available", "what would this domain cost", "find me a domain for my project/business/idea", or wants a link to register a specific name. Returns, per domain, availability, whether it's a premium name, the first-year price, the renewal price, and — for names we can register — a URL to open in a browser to register on justdomain.ai. Read-only: it looks up information only. Do NOT use it to buy, purchase, pay for, or complete registration of a domain in the chat (no order or payment happens here — the user opens the returned link to register); do NOT use it to transfer, renew, manage, or edit DNS on a domain the user already owns; do NOT use it to auto-suggest alternative TLDs (it checks exactly the domains you pass); do NOT use it for anything beyond availability and pricing lookup.
 ---
 
 # Just Domain — check domain availability and pricing, straight from the chat
@@ -42,8 +42,9 @@ The user says things like:
    - `domains`: an array of 1–200 fully-qualified domain strings.
    - The tool checks exactly those names — it does not suggest or add TLDs.
 3. **Read the results.** Each entry carries: `available` (bool), `premium`
-   (bool), the first-year price, the renewal price, and — for available names —
-   a `checkout_url`.
+   (bool), the first-year price, the renewal price, and — for names Just Domain
+   can register — a `checkout_url`. A premium name carries no `checkout_url`:
+   Just Domain does not register premium names yet.
 4. **Present them clearly** (see below), and for names the user wants, hand over
    the `checkout_url` to open in a browser.
 
@@ -56,7 +57,8 @@ response.
 - Group into **Available** and **Taken**.
 - For each available name, state the **first-year price and the renewal price**
   (both are real product prices the tool returns — quote them as facts, not
-  rounded or embellished). Flag `premium` names as premium.
+  rounded or embellished). Say plainly that a `premium` name cannot be
+  registered through Just Domain yet, and do not offer to buy it.
 - Do not editorialize the pricing ("cheap", "a steal") — just report it.
 
 ## Registering an available name

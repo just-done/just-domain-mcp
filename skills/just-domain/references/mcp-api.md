@@ -20,10 +20,10 @@ domain. Each entry carries:
 | `name` | string | The second-level label (the part before the TLD). |
 | `tld` | string | The TLD. |
 | `available` | boolean | Whether the domain can be registered right now. |
-| `premium` | boolean | Whether it is a premium (higher-priced) name. |
+| `premium` | boolean | Whether it is a premium (registry-priced) name. Just Domain does not register these yet. |
 | `price_first_year` | number | First-year registration price. |
 | `price_renewal` | number | Annual renewal price. |
-| `checkout_url` | string | Present on available names only — a URL the user opens in a browser to register on justdomain.ai. |
+| `checkout_url` | string | Present only on available names Just Domain can register — a URL the user opens in a browser to register on justdomain.ai. Absent on premium names. |
 
 The tool is read-only (`readOnlyHint`): it reports information and never places
 an order or takes payment. To register a name, the user opens its `checkout_url`
