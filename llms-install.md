@@ -16,7 +16,10 @@ locally, and no API key is required.
 
 2. That's the entire installation. Verify by listing tools — you should see `search_domains`.
 3. To use: call `search_domains` with one or more domain names. It returns availability,
-   first-year and renewal pricing, and a registration URL for available names. It is
+   registration and renewal pricing, and a registration URL for available names. Both
+   prices are totals for one full registration term of that ending, not per-year rates:
+   one year on most endings, but two years on `.ai`, whose registry mandates a two-year
+   term. Do not divide or multiply a returned price by a number of years. It is
    read-only — no order is placed and no payment is taken in the chat; the user opens the
    returned URL in a browser to register on justdomain.ai.
 
