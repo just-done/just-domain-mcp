@@ -2,9 +2,9 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "ai.justdomain/just-domain",
   "title": "Just Domain",
-  "description": "Search domain availability and pricing, straight from chat — then open a link to register.",
+  "description": "Search domain availability and pricing, straight from chat, then open a link to register.",
   "websiteUrl": "https://justdomain.ai",
-  "version": "0.3.6",
+  "version": "0.4.1",
   "icons": [
     {
       "src": "https://justdomain.ai/just-icon-512.png",
