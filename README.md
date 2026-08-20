@@ -3,7 +3,7 @@
 **Search domain availability and pricing, straight from chat — then open a link to register.**
 
 Ask your AI assistant whether a domain is free and what it costs. The Just Domain MCP
-server checks availability and first-year + renewal pricing and hands back a link to
+server checks availability and registration + renewal pricing and hands back a link to
 register the name on justdomain.ai — without leaving the conversation. It's read-only:
 nothing is bought or charged in the chat.
 
@@ -32,7 +32,7 @@ registration link.
 
 | Tool | What it does |
 | --- | --- |
-| `search_domains` | Check one or more domain names: returns availability, first-year price, renewal price, and — for available names — a URL to open and register on justdomain.ai. Read-only; no order or payment in chat. |
+| `search_domains` | Check one or more domain names: returns availability, registration price, renewal price, and — for available names — a URL to open and register on justdomain.ai. Both prices are totals for one full registration term of that ending, not per-year rates: one year on most endings, but two years on `.ai`, whose registry mandates a two-year term. Read-only; no order or payment in chat. |
 
 ## Agent Skill (ChatGPT / Codex / any SKILL.md runtime)
 

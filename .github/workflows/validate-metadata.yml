@@ -1,0 +1,25 @@
+name: validate-metadata
+
+# This repo is metadata only: no build, no tests, nothing that would have caught
+# a SKILL.md whose frontmatter does not parse. This is that check.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install pyyaml
+
+      - name: Validate server.json, .mcp.json and the SKILL.md frontmatter
+        run: python3 scripts/validate-metadata.py
