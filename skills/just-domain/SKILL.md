@@ -1,6 +1,6 @@
 ---
 name: just-domain
-description: "Check whether a domain is available and what it costs, and whether a domain held at another registrar could move to Just Domain. Use when the user asks \"is example.com available\", compares names, asks what a domain costs, wants a link to register one, or asks whether a domain can transfer in, what is blocking it, or what that would cost. Returns per domain: availability, premium flag, `term_years`, registration and renewal price for one full term (not per-year rates), and a URL to register it; and for a transfer: what would block it, the current registrar, whether DNS survives the move, and the full-term price. Read-only. Do NOT use it to buy, pay for, or complete a registration or a transfer in the chat; do NOT use it to unlock a domain or to obtain, accept or relay an authorization (EPP) code - those are owner-only browser actions on justdomain.ai, no agent path to either, ever; do NOT use it to renew or edit DNS on a domain; do NOT use it to auto-suggest alternative TLDs, it checks exactly what you pass."
+description: "Check whether a domain is available and what it costs, and whether a domain held at another registrar could move to Just Domain. Use when the user asks \"is example.com available\", compares names, asks what a domain costs, wants a link to register one, or asks whether a domain can transfer in, what is blocking it, or what that would cost. Returns per domain: availability, premium flag, `term_years`, registration and renewal price for one full term (not per-year rates), and a URL to register it; and for a transfer: what would block it, the current registrar, whether DNS survives the move, and the full-term price. Read-only. Do NOT use it to buy, pay for, or complete a registration or a transfer in the chat; do NOT use it to unlock a domain or to obtain, accept or relay an authorization (EPP) code - those are owner-only browser actions on justdomain.ai, no agent path to either; do NOT use it to renew or edit DNS on a domain; do NOT use it to auto-suggest alternative TLDs, it checks exactly what you pass."
 ---
 
 # Just Domain - check domain availability, pricing and transfers, straight from the chat
@@ -43,7 +43,7 @@ The user says things like:
   self-service inbound transfer yet. Unlocking a domain held at Just Domain,
   and issuing its authorization (EPP) code, ARE self-service - for the owner,
   signed in on justdomain.ai, in a browser. That is not a capability you
-  have: there is no agent path to either, ever. See "The one refusal" below.
+  have: there is no agent path to either. See "The one refusal" below.
 - **Renewals, DNS edits and nameserver changes** on a domain the user owns.
   Not available through this server at all.
 - **Auto-expanding TLDs.** The tool checks exactly the domains you pass. If the
