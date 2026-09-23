@@ -4,7 +4,7 @@
   "title": "Just Domain",
   "description": "Search domain availability and pricing, and check if a domain can transfer in, from chat.",
   "websiteUrl": "https://justdomain.ai",
-  "version": "0.5.1",
+  "version": "0.5.3",
   "icons": [
     {
       "src": "https://justdomain.ai/just-icon-512.png",

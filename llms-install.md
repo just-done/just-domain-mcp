@@ -37,7 +37,7 @@ locally, and no API key is required.
 
 5. Two things neither tool does. Moving a domain IN is not a self-service function
    yet: report the check, then hand over to support@just-done.ai. And no authorization
-   (EPP) code is ever returned, accepted or hinted at, with no agent path to unlocking
+   (EPP) code is returned, accepted or hinted at, with no agent path to unlocking
    a domain or to having a code issued. Moving a domain OUT is self-service for the
    human owner, signed in on justdomain.ai in a browser, and for nobody else.
 

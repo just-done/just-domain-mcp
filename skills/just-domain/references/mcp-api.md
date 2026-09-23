@@ -89,8 +89,8 @@ and what one full term would cost; the move itself is arranged by a person,
 starting at `transfer_url`. Do not describe a payment step for that page or
 promise what it will do.
 
-**No authorization (EPP) code, ever.** This tool never returns, accepts or
-hints at one, and there is no agent path to unlocking a domain or to having a
+**No authorization (EPP) code.** This tool does not return, accept or
+hint at one, and there is no agent path to unlocking a domain or to having a
 code issued - not here, and not through any other Just Domain surface. An auth
 code is a bearer credential for the domain. Do not ask the user for one, do
 not offer to hold or relay one, and never claim you can unlock or move a
@@ -100,21 +100,21 @@ Note what that refusal survives. Just Domain DOES let the owner of a domain
 held here switch its transfer lock off and issue its authorization code
 without contacting support. "Self-service" there means a human owner, signed
 in on justdomain.ai, in a browser, and nothing else: those actions live on the
-authenticated website surface, no MCP tool reaches them, and none ever will.
+authenticated website surface, and no MCP tool reaches them.
 A structural test parses this server module's imports to keep it that way.
 
-The same FACTS are published over plain HTTP for agents with no MCP client:
+The same answer is published over plain HTTP for agents with no MCP client:
 `GET https://mcp.justdomain.ai/api/transfer/precheck?domain=example.com`
 (also POST, with `{"domain": "..."}`). It is served by the MCP host, the same
 origin as the transport above, and NOT by the `justdomain.ai` website, which
-answers 404 for that path. The shape is NOT identical to the tool's, and the
-differences matter:
+answers 404 for that path. It carries the same `ready`, `transfer_url`,
+`next_step` and `auth_code_policy` as the tool, built by the same code, so the
+authorization-code refusal above arrives with every HTTP answer too. One key
+differs, and it matters:
 
-- the projected date is called `new_expiry` there, not `expected_new_expiry`;
-- the HTTP payload carries **no `ready`, `transfer_url`, `next_step` or
-  `auth_code_policy`**. So read `blockers` and apply the rule yourself: an
-  EMPTY list is the only thing that means ready, and the authorization-code
-  refusal above still binds even though that payload does not restate it.
+- the projected date is called `new_expiry` there, not `expected_new_expiry`.
+  It is the same projection (the registry's current expiry plus the term),
+  not a date any registry has confirmed.
 
 ## Raw JSON-RPC (no MCP client available)
 
@@ -185,11 +185,10 @@ did not return.
 
 Moving a domain OUT is available, and it is an OWNER action on justdomain.ai
 behind a sign-in: the owner switches the transfer lock off and gets the
-authorization (EPP) code from their own account, free, with no survey and no
-retention offer. It is not reachable from this server. **No authorization
-(EPP) code is ever issued to an agent or an API caller, and there is no agent
-path to unlocking a domain.** That does not change when the product gains
-something later.
+authorization (EPP) code from their own account, currently free, with no
+survey and no retention offer. It is not reachable from this server. **Just
+Domain does not hand an authorization (EPP) code to an agent or an API caller,
+and there is no agent path to unlocking a domain.**
 
 Full product docs for humans: https://justdomain.ai
 Source and issues: https://github.com/just-done/just-domain-mcp

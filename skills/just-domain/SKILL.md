@@ -1,6 +1,6 @@
 ---
 name: just-domain
-description: "Check whether a domain is available and what it costs, and whether a domain held at another registrar could move to Just Domain. Use when the user asks \"is example.com available\", compares names, asks what a domain costs, wants a link to register one, or asks whether a domain can transfer in, what is blocking it, or what that would cost. Returns per domain: availability, premium flag, `term_years`, registration and renewal price for one full term (not per-year rates), and a URL to register it; and for a transfer: what would block it, the current registrar, whether DNS survives the move, and the full-term price. Read-only. Do NOT use it to buy, pay for, or complete a registration or a transfer in the chat; do NOT use it to unlock a domain or to obtain, accept or relay an authorization (EPP) code - those are owner-only browser actions on justdomain.ai, no agent path to either, ever; do NOT use it to renew or edit DNS on a domain; do NOT use it to auto-suggest alternative TLDs, it checks exactly what you pass."
+description: "Check whether a domain is available and what it costs, and whether a domain held at another registrar could move to Just Domain. Use when the user asks \"is example.com available\", compares names, asks what a domain costs, wants a link to register one, or asks whether a domain can transfer in, what is blocking it, or what that would cost. Returns per domain: availability, premium flag, `term_years`, registration and renewal price for one full term (not per-year rates), and a URL to register it; and for a transfer: what would block it, the current registrar, whether DNS survives the move, and the full-term price. Read-only. Do NOT use it to buy, pay for, or complete a registration or a transfer in the chat; do NOT use it to unlock a domain or to obtain, accept or relay an authorization (EPP) code - those are owner-only browser actions on justdomain.ai, no agent path to either; do NOT use it to renew or edit DNS on a domain; do NOT use it to auto-suggest alternative TLDs, it checks exactly what you pass."
 ---
 
 # Just Domain - check domain availability, pricing and transfers, straight from the chat
@@ -43,7 +43,7 @@ The user says things like:
   self-service inbound transfer yet. Unlocking a domain held at Just Domain,
   and issuing its authorization (EPP) code, ARE self-service - for the owner,
   signed in on justdomain.ai, in a browser. That is not a capability you
-  have: there is no agent path to either, ever. See "The one refusal" below.
+  have: there is no agent path to either. See "The one refusal" below.
 - **Renewals, DNS edits and nameserver changes** on a domain the user owns.
   Not available through this server at all.
 - **Auto-expanding TLDs.** The tool checks exactly the domains you pass. If the
@@ -56,7 +56,7 @@ The user says things like:
    bare word ("acme"), propose specific full domains and check those.
 2. **Call `search_domains`** on `https://mcp.justdomain.ai/` (Streamable HTTP,
    no auth required to connect):
-   - `domains`: an array of 1–200 fully-qualified domain strings.
+   - `domains`: an array of 1-200 fully-qualified domain strings.
    - The tool checks exactly those names; it does not suggest or add TLDs.
 3. **Read the results.** Each entry carries: `available` (bool), `premium`
    (bool), `term_years`, the registration price, the renewal price, and, for
@@ -112,8 +112,8 @@ let an owner switch a domain's transfer lock off and issue its authorization
 code without contacting support. That is what "self-service" means there, and
 it means precisely one thing: **a human owner, signed in on justdomain.ai, in
 a browser.** It does not mean an API you can reach, and it does not mean you
-can do it on their behalf. The refusal is a permanent property of this
-product, not a feature that has not shipped yet.
+can do it on their behalf. That is how the product works today, and there is
+no agent path to it.
 
 So: never ask the user for an auth code, never offer to hold, store or relay
 one, never claim you can unlock a domain or move it yourself. For a domain
@@ -195,7 +195,7 @@ and the route is support@just-done.ai.
 **Renewing a domain IS in the product**, and this list used to deny it. An
 owner renews from their account on justdomain.ai, an owner can turn auto-renew
 on or off there, and automatic renewal charges really happen on the setting.
-Just Domain also sends order, registration and expiry-reminder email. None of
+Just Domain may also send order, registration and expiry-reminder email. None of
 it is reachable from here: it is an owner action in a browser, like the rest
 of account management, and the Renewals section above is the rule for what you
 may say about it.
@@ -207,11 +207,11 @@ anywhere self-service.
 
 Moving a domain OUT is **not** on that list any more: the owner switches the
 transfer lock off and gets the authorization (EPP) code from their own
-account on justdomain.ai, with no exit fee, no survey and no retention offer,
-and both actions send a notification that cannot be turned off. It is still
-an owner action in a browser and it is still unreachable from here. No agent
-will ever be handed a code or a way to unlock a domain, whatever the product
-gains later. Point the owner at their dashboard.
+account on justdomain.ai, currently with no exit fee, survey or retention
+offer, and both actions send a notification with no off switch. It is still an owner action in a browser and it is still unreachable
+from here. Just Domain does not hand an authorization code to an assistant or
+API caller, and there is no agent path to unlocking a domain. Point the owner
+at their dashboard.
 
 Full product answers for agents: the `domain://faq` resource and
 https://justdomain.ai.

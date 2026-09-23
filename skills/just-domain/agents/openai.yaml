@@ -16,6 +16,6 @@ dependencies:
   tools:
     - type: "mcp"
       value: "just-domain"
-      description: "Just Domain MCP server: read-only domain availability and pricing lookup with a registration link for available names, plus a read-only transfer precheck for a domain held at another registrar. No purchase happens here. Switching a domain's transfer lock off and issuing its authorization (EPP) code are self-service for the owner, signed in on justdomain.ai in a browser, and there is no agent path to unlocking a domain or to having a code issued - no caller is ever handed a code."
+      description: "Just Domain MCP server: read-only domain availability and pricing lookup with a registration link for available names, plus a read-only transfer precheck for a domain held at another registrar. No purchase happens here. Switching a domain's transfer lock off and issuing its authorization (EPP) code are self-service for the owner, signed in on justdomain.ai in a browser, and there is no agent path to unlocking a domain or to having a code issued - no caller is handed a code."
       transport: "streamable_http"
       url: "https://mcp.justdomain.ai/"
