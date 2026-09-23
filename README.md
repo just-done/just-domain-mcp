@@ -53,7 +53,7 @@ justdomain.ai website.
 - Moving a domain **in** is not a self-service function yet. `check_domain_transfer`
   reports whether a domain is eligible and what it would cost; the move itself is
   arranged by a person, and the route is support@just-done.ai.
-- No authorization (EPP) code is ever returned, accepted or hinted at, and there is no
+- No authorization (EPP) code is returned, accepted or hinted at, and there is no
   agent path to unlocking a domain or to having a code issued. Moving a domain **out**
   is self-service, and self-service there means a human owner signed in on
   justdomain.ai in a browser: they switch the transfer lock off and get the code from
