@@ -2,7 +2,8 @@
 
 Endpoint: `https://mcp.justdomain.ai/`, MCP over Streamable HTTP
 (JSON-RPC 2.0 over POST). No auth is required to connect. The server is
-read-only: no order is created and no payment is taken through it.
+read-only: no order is created, nothing is filed and no payment is taken
+through it.
 
 ## Tools
 
@@ -65,7 +66,7 @@ Returns (in `structuredContent`):
 | `dns_continuity` | object | `{ case, provider, detail }`, case = `independent` / `losing_registrar` / `unknown`. |
 | `price` | object or null | `{ amount, currency, term_years, term_note, expected_new_expiry, is_premium }`. Null when the price could not be read - which is not the same as free. |
 | `source` | object | `{ rdap, registrar_pricing }` - which sources actually answered. |
-| `transfer_url` | string | The page a PERSON opens to take this further. |
+| `transfer_url` | string | The transfer page for this domain (`https://justdomain.ai/transfer?domain=...`), which a PERSON opens to finish the move. |
 | `next_step` | string | One sentence about what happens next, already matched to this domain's state. |
 | `auth_code_policy` | string | The authorization-code rule, restated in every payload. |
 
@@ -83,14 +84,15 @@ registry will honour. Quote `term_note` beside the amount.
 `expected_new_expiry` is a projection (the registry's current expiry plus the
 term), not a date any registry has confirmed.
 
-**Moving a domain IN is not a self-service function yet**; the route is
-support@just-done.ai. This tool reports whether a domain is eligible to move
-and what one full term would cost; the move itself is arranged by a person,
-starting at `transfer_url`. Do not describe a payment step for that page or
-promise what it will do.
+**Moving a domain IN is self-service**: the owner checks it and pays at
+https://justdomain.ai/transfer, pasting the authorization code there, and a
+transfer that does not complete is refunded in full. This tool reports
+whether a domain is eligible to move and what one full term would cost; hand
+over `transfer_url`, which opens that page for this domain.
+Nothing is paid or ordered in the chat.
 
-**No authorization (EPP) code, ever.** This tool never returns, accepts or
-hints at one, and there is no agent path to unlocking a domain or to having a
+**No authorization (EPP) code.** This tool does not return, accept or
+hint at one, and there is no agent path to unlocking a domain or to having a
 code issued - not here, and not through any other Just Domain surface. An auth
 code is a bearer credential for the domain. Do not ask the user for one, do
 not offer to hold or relay one, and never claim you can unlock or move a
@@ -100,21 +102,57 @@ Note what that refusal survives. Just Domain DOES let the owner of a domain
 held here switch its transfer lock off and issue its authorization code
 without contacting support. "Self-service" there means a human owner, signed
 in on justdomain.ai, in a browser, and nothing else: those actions live on the
-authenticated website surface, no MCP tool reaches them, and none ever will.
+authenticated website surface, and no MCP tool reaches them.
 A structural test parses this server module's imports to keep it that way.
 
-The same FACTS are published over plain HTTP for agents with no MCP client:
+The same answer is published over plain HTTP for agents with no MCP client:
 `GET https://mcp.justdomain.ai/api/transfer/precheck?domain=example.com`
 (also POST, with `{"domain": "..."}`). It is served by the MCP host, the same
 origin as the transport above, and NOT by the `justdomain.ai` website, which
-answers 404 for that path. The shape is NOT identical to the tool's, and the
-differences matter:
+answers 404 for that path. It carries the same `ready`, `transfer_url`,
+`next_step` and `auth_code_policy` as the tool, built by the same code, so the
+authorization-code refusal above arrives with every HTTP answer too. One key
+differs, and it matters:
 
-- the projected date is called `new_expiry` there, not `expected_new_expiry`;
-- the HTTP payload carries **no `ready`, `transfer_url`, `next_step` or
-  `auth_code_policy`**. So read `blockers` and apply the rule yourself: an
-  EMPTY list is the only thing that means ready, and the authorization-code
-  refusal above still binds even though that payload does not restate it.
+- the projected date is called `new_expiry` there, not `expected_new_expiry`.
+  It is the same projection (the registry's current expiry plus the term),
+  not a date any registry has confirmed.
+
+### `check_trademark` - one name against the trademark registers
+
+A read-only proxy to Open Trademarks (https://opentrademarks.org), which reads
+the US, EU and Israeli trademark registers: one `GET /v1/check` on its API per
+call. The structured content is the API's own answer, unchanged. The text
+block leads with the verdict, lists the conflicting marks, gives each
+register's read date and quotes `notice` verbatim.
+
+| Argument | Type | Required | Notes |
+|---|---|---|---|
+| `name` | string | yes | The proposed name, 2 to 120 characters. One name per call. |
+| `goods` | string | no | What the name is for, in plain words. Open Trademarks maps it to Nice classes. |
+| `classes` | array of integers | no | Nice classes to check, each 1 to 45. |
+| `registers` | array of strings | no | A subset of `us`, `eu`, `il`. All three when left out. |
+
+Returns (in `structuredContent`):
+
+| Field | Type | Notes |
+|---|---|---|
+| `query` | object | The name, goods, classes and registers as checked. |
+| `verdict` | string | `exact_live_mark`, `similar_live_marks`, `no_live_match` or `not_checked`. `not_checked` means no register in this check has been read yet: it is not a verdict. `no_live_match` is a positive signal, not clearance. |
+| `conflicts` | array | The live marks behind the verdict: `register`, `number`, `reg_number`, `mark`, `state`, `classes`, `signals` (how it matched), `class_overlap`, `office_url`, `owner`. |
+| `other_classes` | array | Live marks that match in classes other than the ones checked, same shape. |
+| `dead` | object | `count` and `latest` for dead marks that matched. |
+| `registers` | array | Every register in the check: `register`, `loaded_at` (null means not read yet), `source_date`, `rows`, `stale`. |
+| `notice` | string | The answer's own caveat. Quote it as written. |
+| `generated_at` | string | When Open Trademarks built the answer. |
+
+Never tell a user a name is clear unless it was checked during this
+conversation and every register in the answer was read today or yesterday. A
+register search is not legal advice.
+
+When Open Trademarks does not answer, `check_trademark` returns a coded tool error
+(`[trademark_service_unavailable]`, `[invalid_query]` or `[rate_limited]`) and
+no result: never a verdict.
 
 ## Raw JSON-RPC (no MCP client available)
 
@@ -152,7 +190,8 @@ The server also exposes, for clients that support them:
 ## Limits
 
 - **At most 200 domains per request** to `search_domains`; exactly ONE domain
-  per `check_domain_transfer` call.
+  per `check_domain_transfer` call; and exactly ONE name per
+  `check_trademark` call.
 - Each entry must be a fully-qualified domain including its TLD; bare labels are
   rejected on the `domains` argument.
 - `search_domains` checks exactly the domains passed: no alternate-TLD
@@ -162,9 +201,10 @@ The server also exposes, for clients that support them:
 
 ## Not available through this server
 
-`search_domains` and `check_domain_transfer` are the only tools, and both are
-read-only. There is no registration, renewal, transfer, unlock, DNS or account
-tool, and none is reachable by any other method here.
+`search_domains`, `check_domain_transfer` and `check_trademark` are the only
+tools, and all three are read-only. There is no
+registration, renewal, transfer, unlock, DNS, account or trademark-filing tool,
+and none is reachable by any other method here.
 
 Beyond them, in the product as a whole: renewing a domain IS available, as an
 owner action in a browser on justdomain.ai, and Just Domain does send order,
@@ -176,20 +216,20 @@ https://justdomain.ai/dashboard is the authoritative answer and this server
 cannot know it. Never state a renewal date, a charge, or a reminder schedule
 on your own - send the owner to the dashboard.
 
-**Moving a domain IN is not a self-service function yet**; the route is
-support@just-done.ai. What IS available is the check: `check_domain_transfer`
-reports whether a domain is eligible to move, what is blocking it, and what
-one full transfer term would cost. Report that answer and hand over the route.
-Do not tell a user they can start a transfer, and never quote a price the tool
-did not return.
+**Moving a domain IN is self-service**: the owner checks it and pays at
+https://justdomain.ai/transfer, pasting the authorization code there, and a
+transfer that does not complete is refunded in full.
+`check_domain_transfer` reports whether a domain is eligible to move, what is
+blocking it, and what one full transfer term would cost. Report that answer
+and hand over the `transfer_url`. Never start or pay for a transfer in the
+chat, and never quote a price the tool did not return.
 
 Moving a domain OUT is available, and it is an OWNER action on justdomain.ai
 behind a sign-in: the owner switches the transfer lock off and gets the
-authorization (EPP) code from their own account, free, with no survey and no
-retention offer. It is not reachable from this server. **No authorization
-(EPP) code is ever issued to an agent or an API caller, and there is no agent
-path to unlocking a domain.** That does not change when the product gains
-something later.
+authorization (EPP) code from their own account, currently free, with no
+survey and no retention offer. It is not reachable from this server. **Just
+Domain does not hand an authorization (EPP) code to an agent or an API caller,
+and there is no agent path to unlocking a domain.**
 
 Full product docs for humans: https://justdomain.ai
 Source and issues: https://github.com/just-done/just-domain-mcp
