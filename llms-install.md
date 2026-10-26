@@ -14,8 +14,8 @@ locally, and no API key is required.
      }
    }
 
-2. That's the entire installation. Verify by listing tools: you should see
-   `search_domains` and `check_domain_transfer`.
+2. That's the entire installation. Verify by listing tools: you should see three,
+   `search_domains`, `check_domain_transfer` and `check_trademark`.
 
 3. `search_domains` takes one or more domain names and returns availability, the
    registration and renewal price, and a registration URL for available names. Both
@@ -35,16 +35,28 @@ locally, and no API key is required.
    `GET https://mcp.justdomain.ai/api/transfer/precheck?domain=example.com` (served by
    the MCP host, not by the justdomain.ai website).
 
-5. Two things neither tool does. Moving a domain IN is not a self-service function
-   yet: report the check, then hand over to support@just-done.ai. And no authorization
-   (EPP) code is ever returned, accepted or hinted at, with no agent path to unlocking
-   a domain or to having a code issued. Moving a domain OUT is self-service for the
-   human owner, signed in on justdomain.ai in a browser, and for nobody else.
+   It also hands back a `transfer_url`: moving a domain IN is self-service in a
+   browser, where the owner checks it and pays at https://justdomain.ai/transfer,
+   pasting the authorization code there.
+
+5. `check_trademark` takes ONE proposed name and checks it against the trademark
+   registers Open Trademarks (https://opentrademarks.org) covers (US, EU and Israel),
+   answered by Open Trademarks. It returns a `verdict` (`exact_live_mark`,
+   `similar_live_marks`, `no_live_match`, or `not_checked`, which is no verdict), the
+   conflicting marks, and each register's read date; a register with no read date in
+   the answer was not checked. Optional `goods`, `classes` (Nice 1 to 45) and
+   `registers` narrow it. A register search is not legal advice, and no answer clears
+   a name.
+
+6. What no tool does. No authorization (EPP) code is ever returned, accepted or
+   hinted at, with no agent path to unlocking a domain or to having a code issued.
+   Moving a domain OUT is self-service for the human owner, signed in on
+   justdomain.ai in a browser, and for nobody else.
 
 ## Agent Skill (optional)
 
 This repo also ships a SKILL.md-format Agent Skill at `skills/just-domain/` that
-teaches an agent when and how to use both tools. Codex-style installers can pull it
+teaches an agent when and how to use the tools. Codex-style installers can pull it
 from the GitHub tree
 `https://github.com/just-done/just-domain-mcp/tree/main/skills/just-domain`, or copy
 the folder into `$CODEX_HOME/skills/` (or `~/.claude/skills/`). It is also served at
